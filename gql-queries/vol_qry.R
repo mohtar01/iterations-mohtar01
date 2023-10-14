@@ -39,3 +39,19 @@ a <-GQL(
 )
 a
 
+
+#Task5
+transform_volumes <- function(data) {
+  # Extracting the relevant lists containing the time and volume data
+  volumes_list <- data$trafficData$volume$byHour$edges
+  
+  # Using purrr's map to extract 'from' and 'volume' and then converting the list to a dataframe
+  df <- purrr::map_dfr(volumes_list, ~{
+    tibble::tibble(
+      from = lubridate::ymd_hms(.x$node$from, tz="UTC"),
+      volume = .x$node$total$volumeNumbers$volume
+    )
+  })
+  
+  return(df)
+}

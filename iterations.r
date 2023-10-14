@@ -52,19 +52,27 @@ test_stations_metadata(stations_metadata_df)
 
 source("gql-queries/vol_qry.r")
 
-stations_metadata_df %>% 
+selected_station <- stations_metadata_df %>% 
   filter(latestData > Sys.Date() - days(7)) %>% 
-  sample_n(1) %$% 
-  vol_qry(
-    id = id,
-    from = to_iso8601(latestData, -4),
-    to = to_iso8601(latestData, 0)
-  ) %>% 
-  GQL(., .url = configs$vegvesen_url) %>%
+  sample_n(1)
+
+station_name <- selected_station$name
+
+query_result <- vol_qry(
+  id = selected_station$id,
+  from = to_iso8601(selected_station$latestData, -4),
+  to = to_iso8601(selected_station$latestData, 0)
+) %>% 
+  GQL(.url = configs$vegvesen_url)
+
+query_result %>%
   transform_volumes() %>% 
   ggplot(aes(x=from, y=volume)) + 
   geom_line() + 
+  labs(
+    title = paste("Traffic Volume for Station:", station_name),
+    x = "Date and Time",
+    y = "Volume"
+  ) + 
   theme_classic()
-stations_metadata_df
-
 
