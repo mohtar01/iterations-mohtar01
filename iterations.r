@@ -9,6 +9,7 @@ library(lubridate)
 library(anytime)
 library(readr)
 library(yaml)
+library(dplyr)
 
 #### 1: Beginning of script
 
@@ -39,6 +40,7 @@ source("functions/data_transformations.r")
 stations_metadata_df <- 
   stations_metadata %>% 
   transform_metadata_to_df(.)
+head(stations_metadata_df,2)
 
 
 #### 3: Testing metadata
@@ -63,7 +65,7 @@ stations_metadata_df %>%
   ggplot(aes(x=from, y=volume)) + 
   geom_line() + 
   theme_classic()
-
+stations_metadata_df
 
 
 
