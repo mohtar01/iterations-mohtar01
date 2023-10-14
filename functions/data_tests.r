@@ -76,7 +76,10 @@ test_stations_metadata <-
     test_stations_metadata_nrows(df)
     test_stations_metadata_latestdata_timezone(df)
   }
-# This function should runs all the other functions above
+# This function runs all the other functions above
+
+
+
 
 
 
