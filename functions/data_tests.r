@@ -15,7 +15,8 @@ test_stations_metadata_colnames <-
     } else{
       print("FAIL: Columns do not match the correct specification")
     }
-  }
+  } # The purpose of this function is if to check that the column names are equal to
+# the expencted column names, which are the ones in the example rows at the end of Problem 2
 
 test_stations_metadata_nrows <-
   function(df) {
@@ -29,8 +30,8 @@ test_stations_metadata_nrows <-
       print("FAIL: Data has suspiciously few rows")
     } else {
       print("FAIL: Data has suspiciously many rows")
-    }
-  }
+    } # This function just checks for the total amount of rows of the dataframe
+  }# If there are less than 10000 rows or more than 5000 the output is Pass, else Fail.
 
 test_stations_metadata_coltypes <-
   function(df) {
@@ -42,8 +43,8 @@ test_stations_metadata_coltypes <-
       print("PASS: All cols have the correct specifications")
     } else{
       print("FAIL: Columns do not have the correct specification")
-    }
-  }
+    }# This function checks if the column specifications are the ones that are expected
+  }#For example the "id" and "name" columns should be oftype character, and the rest of type "double"
   
 test_stations_metadata_nmissing <-
   function(df) {
@@ -53,8 +54,8 @@ test_stations_metadata_nmissing <-
       print("PASS: Amount of missing values is reasonable")
     } else {
       print("FAIL: Too many missing values in data set")
-    }
-  }
+    }#This function checks whether there are more or less than 200 missing values
+  }# If more, Fail, and if less the output is Pass
 
 test_stations_metadata_latestdata_timezone <-
   function(df) {
@@ -63,7 +64,7 @@ test_stations_metadata_latestdata_timezone <-
       print("PASS: latestData has UTC-time zone")
     } else {
       print("FAIL: latestData does not have expected UTC-time zone")
-    }
+    }#This function checks if latestData column utilizes UTC timezone- Pass if yes and Fail if no.
   }
 
 
@@ -75,6 +76,9 @@ test_stations_metadata <-
     test_stations_metadata_nrows(df)
     test_stations_metadata_latestdata_timezone(df)
   }
+# This function runs all the other functions above
+
+
 
 
 
