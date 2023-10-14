@@ -3,11 +3,12 @@ transform_metadata_to_df <- function(metadata) {
   #A sub function to extract and process each entry
   # I stumbles on some problems with employing an anonymous function so I just did it like this:
   process_entry <- function(x) {
-    datetime_str = gsub("T", " ", substr(x$latestData$volumeByHour, 1, 19)) # Remove 'T' and get 'YYYY-MM-DD HH:MM:SS' format
+    datetime_str = gsub("T", " ", substr(x$latestData$volumeByHour, 1, 19))
+    
     list(
       id = x$id,
       name = x$name,
-      date = format(as.POSIXct(datetime_str, format="%Y-%m-%d %H:%M:%S", tz="UTC"), "%Y-%m-%d %H:%M:%S"), # Convert to POSIXct with UTC timezone and then format as string
+      latestData = ymd_hms(datetime_str, tz="UTC"), 
       lat = x$location$coordinates$latLon$lat,
       lon = x$location$coordinates$latLon$lon   
     )
@@ -19,7 +20,7 @@ transform_metadata_to_df <- function(metadata) {
     df <- data.frame(
       id = ifelse(is.null(x$id), NA, x$id),
       name = ifelse(is.null(x$name), NA, x$name),
-      date = ifelse(is.null(x$date), NA, x$date),
+      latestData = ifelse(is.null(x$latestData), NA, x$latestData),
       lat = ifelse(is.null(x$lat), NA, x$lat),
       lon = ifelse(is.null(x$lon), NA, x$lon),
       stringsAsFactors = FALSE
